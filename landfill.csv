@@ -1,0 +1,204 @@
+Landfill_Name,City/District,Latitude,Longitude,Waste_Tonnes
+Deonar Dumping Ground,Mumbai,19.0606,72.9129,7500   
+Kanjurmarg Dumping Ground,Mumbai,19.1423,72.9358,6000   
+Mulund Dumping Ground,Mumbai,19.1725,72.9612,2000  
+Turbhe Landfill,Navi Mumbai,19.0979,73.009,1200   
+Bhandewadi Dump Yard,Nagpur,21.1175,79.133,1000 
+Butibori Industrial Area,Nagpur,20.922,78.965,300   
+Ranjangaon MIDC Landfill,Pune,18.755,74.264,100   
+Uruli Devachi Landfill,Pune,18.4571,73.9495,9000   
+Taloja Regional Landfill,Raigad,19.033,73.1,700   
+Latur Dump Site,Latur,18.4088,76.5604,2000  
+Mandur Landfill,Bengaluru,13.0667,77.7833,3000  
+Mavallipura Landfill,Bengaluru,13.1,77.5,1500  
+Bingipura Landfill,Bengaluru,12.8,77.6,1200  
+Kudlu Landfill,Bengaluru,12.91,77.65,600   
+Doddaballapura Landfill,Bengaluru Rural,13.29,77.54,5000 
+Shivalli Landfill,Dharwad,15.46,75,250 
+Tumakuru Landfill Site 1,Tumakuru,13.2894,77.1953,150    
+Tumakuru Landfill Site 2,Tumakuru,13.2511,77.1142,7500
+Tumakuru Landfill Site 3,Tumakuru,13.27,77.1072,150  
+Tumakuru Landfill Site 4,Tumakuru,13.2783,77.1722,150    
+Mysuru Landfill,Mysuru,12.2958,76.6394,500   
+Kedoor Proposed Landfill,Udupi,13.65,74.7,100  
+Kodungaiyur Dumping Ground,Chennai,13.1271,80.28,4000  
+Perungudi Dumping Ground,Chennai,12.9538,80.2349,3500  
+Vellakkal Landfill,Madurai,9.917,78.118,400    
+Poonamallee Landfill,Chennai,13.0486,80.1067,4500   
+Kanchipuram Proposed Landfill,Kanchipuram,12.834,79.704,150    
+Tondiarpet Contaminated Site,Chennai,13.1253,80.2891,100    
+Viruthampattu Solid Waste Site,Vellore,12.92,79.13,50    
+Nagercoil Dumping Site,Kanyakumari,8.17,77.43,250   
+Mayiladuthurai Dumping Site,Mayiladuthurai,11.1,79.65,150   
+Kumbakonam Dumping Yard,Thanjavur,10.96,79.38,200   
+Kapuluppada Sanitary Landfill,Visakhapatnam,17.89,83.4,7000    
+Ponani Dumping Site,Eluru,16.71,81.1,350
+Rachagunneri Biomass Plant,Chittoor,13.7228,79.63,50     
+Madanapalle Waste Disposal Site,Chittoor,13.55,78.5,100   
+Srikakulam Proposed Landfill,Srikakulam,18.3,83.9,200   
+Vijayawada Dumping Yard,Vijayawada,16.52,80.63,1200  
+Narasaraopet Waste Management Site,Guntur,16.24,80.05,300    
+Rudravaram Waste-to-Energy Plant,Krishna,16,81,400    
+Duggirala Waste Processing Unit,Guntur,16.328,80.6243,2500  
+Pedabondapalli Waste Site,Vizianagaram,18.7521,83.3756,150   
+Jawaharnagar Dumping Yard,Hyderabad,17.5333,78.55,2000   
+Pragathi Nagar Dumpyard,Hyderabad,17.5129,78.3985,500  
+Madikonda Dumpyard,Warangal,17.9833,79.5333,300   
+Ramapura Regional Sanitary Landfill,Warangal,17.9,79.6,400    
+Dharmaram Landfill,Nizamabad,18.672,78.094,300   
+Nagara Landfill,Nizamabad,18.672,78.094,100   
+Nehru Nagar Landfill,Nizamabad,18.672,78.094,200   
+Noor Mohammad Kunta Lake,Hyderabad,17.3667,78.4667,5000 
+Patancheru Industrial Area,Medak,17.5333,78.2667,500    
+Kurmidda Waste Site,Ranga Reddy,17.0325,78.5738,250   
+Dhapa Dumping Ground,Kolkata,22.5466,88.4162,4000 
+East Kolkata Wetlands,Kolkata,22.45,88.4,1000  
+Tiljala Waste Site,Kolkata,22.53,88.38,500  
+Berhampore Dumping Site,Murshidabad,24.1,88.25,200   
+Durgapur Landfill Site,Paschim Bardhaman,23.5333,87.3,500  
+Balurghat Waste Disposal Area,Dakshin Dinajpur,25.2167,88.7667,100  
+Raiganj Waste Disposal Site,Uttar Dinajpur,25.6167,88.1167,150   
+Malda Waste Management Site,Malda,25.0333,88.15,300   
+Krishnanagar Waste Disposal Area,Nadia,23.4,88.5,2000  
+Asansol Dumping Ground,Paschim Bardhaman,23.6833,86.9667,6000   
+Bairia Ramachak Landfill,Patna,25.617,85.141,250    
+Muzaffarpur Dumping Site,Muzaffarpur,26.1167,85.4,400    
+Gaya Waste Disposal Site,Gaya,24.7914,85,300   
+Bhagalpur Dumping Ground,Bhagalpur,25.25,87,350  
+Darbhanga Waste Management Site,Darbhanga,26.15,85.9,250    
+Purnia Landfill Site,Purnia,25.7833,87.4667,300   
+Begusarai Waste Disposal Area,Begusarai,25.4167,86.1333,200 
+Chhapra Dumping Site,Saran,25.7833,84.7333,2500  
+Munger Waste Management Site,Munger,25.3833,86.4667,200 
+Saharsa Dumping Ground,Saharsa,25.8833,86.6,1500
+Municipal Solid Waste Treatment Plant,"Chimpu, Itanagar",27.06,93.37,150   
+Waste Dumping Site,"Hollongi Highway, Itanagar",27.07,93.38,150   
+Waste Dumping Site,"Muyo Village, Lungla",27.08,93.39,150    
+Waste Dumping Site,"National Highway, Tippi, West Kameng",27.09,93.4,150   
+Waste Dumping Site,"Riverbank, Naharlagun",27.1,93.41,150  
+Waste Dumping Site,"Kameng River, West Kameng",27.11,93.42,150  
+Waste Dumping Site,"Seppa, East Kameng",27.12,93.43,150 
+Waste Dumping Site,"Namsai, Namsai District",27.13,93.44,3500  
+Waste Dumping Site,"Ziro, Lower Subansiri",27.14,93.45,150    
+Waste Dumping Site,"Bomdila, West Kameng",27.15,93.46,400 
+Boragaon Landfill Site,Guwahati,26.16,91.72,1000   
+Deepor Beel Wetland,Guwahati,26.15,91.7,800   
+North Lakhimpur Legacy Waste Site,North Lakhimpur,27.23,94.1,200   
+Silchar Waste Management Site,Silchar,24.8,92.78,250    
+Dibrugarh Waste Disposal Site,Dibrugarh,27.47,94.9,3000
+Bongaigaon Waste Management Site,Bongaigaon,26.4833,90.5667,250   
+Tinsukia Waste Disposal Site,Tinsukia,27.5,95.35,200    
+Jorhat Waste Management Site,Jorhat,26.75,94.2167,7050   
+Barpeta Waste Disposal Site,Barpeta,26.22,90.98,150
+Goalpara Waste Management Site,Goalpara,26.15,90.6,150    
+Ambikapur Zero-Landfill City,Ambikapur,23.0917,82.265,50    
+Sakri Solid Waste Processing Plant,Raipur,21.25,81.65,150   
+Bilaspur Waste Processing Facility,Bilaspur,22.09,82.15,300 
+Raigarh Waste Processing Facility,Raigarh,21.9,83.4,250    
+Durg Waste Processing Facility,Durg,21.2,81.3,500   
+Korba Waste Processing Facility,Korba,22.08,82.69,3500   
+Jagdalpur Waste Processing Facility,Jagdalpur,19.07,82,200    
+Rajnandgaon Waste Processing Facility,Rajnandgaon,21.1,81,250   
+Raipur Sanitary Landfill,Raipur,21.25,81.65,600    
+Bilaspur Sanitary Landfill,Bilaspur,22.09,82.15,300   
+Saligao SWMF,"Saligao, North Goa",15.55,73.8,2700 
+Cacora SWMF,"Cacora, South Goa",15.3,73.95,100   
+Verna SWMF (Proposed),"Verna, South Goa",15.3,73.95,50  
+Bainguinim SWMF (Proposed),"Bainguinim, Tiswadi",15.5,73.85,3500     
+Sonsoddo Landfill,"Margao, South Goa",15.29,73.97,400  
+Pirana Landfill Site,Ahmedabad,23.0225,72.5714,2500  
+Kutch Integrated Common Hazardous Waste Management Facility,Kutch,23.0792,69.6975,500    
+Magnad Hazardous Waste Landfill,"Near Jambusar, Baroda",22.2883,73.6128,600  
+EcoCare Secured Landfill Facility,"Ghaspur, Surendranagar",22.7581,71.5075,700    
+Gandhinagar SWM Facility,Gandhinagar,23.2156,72.6369,350   
+Rajkot SWM Facility (Under Construction),Rajkot,22.3039,70.8022,2500   
+Vadodara SWM Facility (Under Construction),Vadodara,22.3072,73.1812,600   
+Surat SWM Facility,Surat,21.1702,72.8311,1200   # Surat SWM Facility
+Waste-to-Energy Plant (Proposed),Ahmedabad,23.0225,72.5714,700   
+Waste-to-Energy Plant (Proposed),Vadodara,22.3072,73.1812,700    
+Bandhwari Landfill Site,"Bandhwari, Gurugram",28.4070,77.0628,2500 
+Jhariwala Sanitary Landfill,"Jhariwala, Panchkula",30.6580,76.8550,300  
+Integrated SWM Facility (Proposed),Faridabad,28.4080,77.3170,200  
+Integrated SWM Facility (Proposed),Sonipat,28.9850,77.0100,200   
+Integrated SWM Facility (Proposed),Rohtak,28.8940,76.6060,9000 
+Integrated SWM Facility (Proposed),Ambala,30.3790,76.7790,200   
+Integrated SWM Facility (Proposed),Karnal,29.6800,76.9900,200   
+Integrated SWM Facility (Proposed),Hisar,29.1490,75.7210,200 
+Integrated SWM Facility (Proposed),Rewari,28.1480,76.6140,200 
+Integrated SWM Facility (Proposed),Yamunanagar,30.0660,77.2760,200  
+Sunder Nagar Landfill Site,"Sunder Nagar, Mandi",31.5980,76.9550,150   
+Sarkaghat Landfill Site,"Sarkaghat, Mandi",31.5950,77.0600,100  
+Baijnath Landfill Site,"Baijnath, Kangra",32.0620,76.9440,100   
+Dalhousie Landfill Site,"Dalhousie, Chamba",32.5830,76.1330,100
+Rewalsar Landfill Site,"Rewalsar, Mandi",32.0130,76.9290,800  
+Pappla Plastic Waste Processing Plant,"Pappla, Kangra",32.0800,76.9330,50     
+Aima Waste Treatment Park,"Aima, Kangra",32.0900,76.9300,100    
+Shimla Waste-to-Energy Plant,"Shimla, Shimla",31.1040,77.1700,1200  
+Sugnibas Integrated MSW Facility,"Sugnibas, East Singhbhum",22.6800,86.1500,100   
+Adityapur Hazardous Waste Facility,"Dugni, Seraikela Kharsawan",22.8000,86.2000,150   
+Central Biomedical Waste Management Plant,Ranchi,23.3440,85.3090,50     
+Hazardous Waste Treatment Facility,Jamshedpur,22.8040,86.2020,70     
+Community Soak Pits & Vermi Compost Units,"Sialjori, Bokaro",23.6500,85.9500,30     
+Brahmapuram Solid Waste Plant,"Kochi, Ernakulam",9.9734,76.3144,3500
+Njeliyanparambu Dumping Yard,Kozhikode,11.2588,75.7804,400  
+Vilappilsala Waste Treatment Plant,Thiruvananthapuram,8.4693,76.9483,300    
+Kureepuzha Dump Yard,Kollam,8.8833,76.5950,250    # Kureepuzha Dump Yard
+Attingal Legacy Waste Site,"Attingal, Thiruvananthapuram",8.6710,76.7750,100 
+Kanhangad Legacy Waste Site,"Kanhangad, Kasaragod",12.2890,75.3580,100    
+Laloor Legacy Waste Site,"Laloor, Thrissur",10.5270,76.2180,120   
+Irinjalakuda Legacy Waste Site,"Irinjalakuda, Thrissur",10.3140,76.2070,100   
+Chelora Legacy Waste Site,"Chelora, Kannur",11.8580,75.3700,100 
+Kottarakkara Legacy Waste Site,"Kottarakkara, Kollam",9.1640,76.6360,850    
+Kayamkulam Legacy Waste Site,"Kayamkulam, Alappuzha",9.1650,76.5610,80   
+Koothattukulam Legacy Waste Site,"Koothattukulam, Ernakulam",9.9370,76.5280,80   
+Kothamangalam Legacy Waste Site,"Kothamangalam, Ernakulam",10.0430,76.6250,80     
+Muvattupuzha Legacy Waste Site,"Muvattupuzha, Ernakulam",9.9800,76.5520,80    
+North Paravur Legacy Waste Site,"North Paravur, Ernakulam",10.1260,76.2350,80    
+Kalamassery Legacy Waste Site,"Kalamassery, Ernakulam",10.0100,76.3160,1500  
+Vatakara Legacy Waste Site,"Vatakara, Kozhikode",11.6020,75.5850,100 
+Kalpetta Legacy Waste Site,"Kalpetta, Wayanad",11.6050,76.0300,6000 
+Iritty Legacy Waste Site,"Iritty, Kannur",12.0170,75.3580,1000   
+Koothuparamba Legacy Waste Site,"Koothuparamba, Kannur",11.8850,75.3520,100
+Kasaragod Legacy Waste Site,Kasaragod,12.4970,75.0000,150   
+Bhanpur Khanti Landfill,Bhopal,23.2540,77.3540,1200   
+Pithampur Hazardous Waste Facility,"Pithampur, Dhar District",22.5720,75.7240,8000
+Rewa Integrated Solid Waste Management Facility,"Pahadiya, Rewa District",24.5350,81.2980,300   
+Indore Waste-to-Energy Plant,Indore,22.7196,75.8577,1300  
+Datia Dumpsite Remediation,Datia,25.6670,78.4670,150   
+Morena Dumpsite Remediation,Morena,26.5290,77.9830,1500  
+Amla Dumpsite Remediation,"Amla, Betul District",21.8490,77.9450,150
+Alampur Dumpsite Remediation,"Alampur, Jabalpur District",23.1710,79.9370,150  
+Lamdeng Waste-to-Energy Plant,24.767,93.979,,100   
+Shija Common Bio-Medical Waste Facility,24.767,93.979,,50   
+Marten Landfill Site,"Mawlai Mawiong, Shillong",25.5300,91.8800,1000
+Nonghali Proposed Landfill Site,"Nonghali, near Shillong",25.5500,91.9000,80  
+Jowai Sanitary Landfill Site,"Sabah Muswang, Jowai",25.5667,92.1833,100  
+Tura Solid Waste Management Plant,"Rongkhon Songgital, Tura",25.5720,90.2190,1890   
+Chamhana GW-RDF Plant,"Tura, West Garo Hills",25.5720,90.2190,70  
+East Jaintia Hills Solid Waste Management Project,Moolamylliang & others,25.5000,92.5000,50  
+"Solid Waste Management Centre (SWMC), Tuirial","Tuirial, Aizawl",23.7536,92.7373,100   
+Common Bio-Medical Waste Treatment Plant,"Tuirial, Aizawl",23.7536,92.7373,50    
+Kohima Solid Waste Management Facility,"Lerie, Kohima",25.6700,94.1000,1200
+Dimapur Municipal Council Dumping Site,"Sunrise Colony, Dimapur",25.9000,93.7500,150  
+Bhuasuni Landfill Site,"Bhuasuni, Khordha District",20.2064,85.8322,400   
+Mahuda Integrated Waste Management Site,"Mahuda Village, Ganjam District",19.2842,84.7397,300   
+Balugaon Dumping Ground,"Balugaon, Khordha District",19.7459,85.2150,2500  
+"Hazardous Waste Disposal Site (TSDF), Nimbua","Nimbua, Dera Bassi",30.6083,76.9242,600   
+WRM Biomass Pellet Plant,"Bhikhi, Mansa District",29.9875,75.5175,50   
+"Material Recovery Facility (MRF), Alipur","Alipur, Panchkula",30.7069,76.8283,60     
+Solid and Liquid Resource Management (SLRM) Centre,Amritsar Cantonment,31.6333,74.8667,80   
+Mathuradaspura Dumping Site,Jaipur,26.9528,75.8450,8000    
+Langadiyawas Dumping Site,Jaipur,26.5833,76.5000,3000  
+Sewapura Dumping Site,Jaipur,26.4167,75.8333,300    
+Kishangarh Marble Slurry Dumping Yard,"Kishangarh, Ajmer",26.0000,74.7000,150    
+Goga Gate Dumping Ground,Bikaner,28.0167,73.3167,100   
+Martam Landfill & Biomining Project,"Martam, Gangtok District",27.2783,88.6125,70  
+Plastic Waste Management Plant,"Changu, East Sikkim",27.1250,88.6222,50    
+Hapania Dumping Yard,"Hapania, Agartala",23.8350,91.2861,150 
+Debendra Chandra Nagar Waste Processing Plant,"Debendra Chandra Nagar, Agartala",23.8325,91.2900,150    
+Sabroom Tertiary Treatment Centre,"Sabroom, South Tripura",23.1583,91.7175,800   
+Govindnagar Landfill Site,"Rishikesh, Dehradun District",30.0860,78.2670,1000   
+Sheeshambada Trenching Ground,Dehradun,30.3140,78.0320,250    
+Nathuawala Sanitation Park,Dehradun,30.3320,78.0270,80     
+Haridwar Waste Processing Facility,Haridwar,29.9450,78.1640,300    
+Kedarnath Waste Management System,"Kedarnath, Rudraprayag District",30.7320,79.0660,500 

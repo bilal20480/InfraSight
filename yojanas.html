@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jan Kalyan Yojana Portal</title>
+    <style>
+        :root {
+            --primary-color: #1565c0;
+            --secondary-color: #0d47a1;
+            --accent-color: #2196f3;
+            --light-color: #e3f2fd;
+            --dark-color: #0d47a1;
+            --text-color: #212121;
+            --highlight-color: #ffc107;
+            --success-color: #388e3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .last-updated {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .yojana-categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 0;
+            gap: 10px;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-tab {
+            background-color: var(--light-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .category-tab:hover, .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--dark-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+        }
+        
+        .yojana-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .yojana-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .yojana-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .yojana-image {
+            height: 180px;
+            background-color: #e0e0e0;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .yojana-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .yojana-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .yojana-department {
+            display: inline-block;
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .yojana-description {
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .yojana-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 15px;
+        }
+        
+        .yojana-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .read-more {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .read-more:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .refresh-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px auto;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #2e7d32;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--dark-color);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .yojana-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .notification {
+                width: calc(100% - 40px);
+                left: 20px;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <header>
+        <div class="container">
+            <h1 class="page-title">Jan Kalyan Yojana Portal</h1>
+            <p class="page-subtitle">Stay updated with all government schemes for rural development</p>
+            <div class="last-updated" id="lastUpdated">Last updated: Loading...</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="yojana-categories">
+            <div class="category-tab active" data-category="all">All Schemes</div>
+            <div class="category-tab" data-category="agriculture">Agriculture</div>
+            <div class="category-tab" data-category="health">Health</div>
+            <div class="category-tab" data-category="education">Education</div>
+            <div class="category-tab" data-category="housing">Housing</div>
+            <div class="category-tab" data-category="employment">Employment</div>
+            <div class="category-tab" data-category="women">Women Welfare</div>
+            <div class="category-tab" data-category="financial">Financial Inclusion</div>
+        </div>
+        
+        <button class="refresh-btn" id="refreshBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+            </svg>
+            Refresh Schemes
+        </button>
+        
+        <h2 class="section-title">Latest Government Schemes</h2>
+        <div class="yojana-grid" id="yojanaContainer">
+            <div class="loading">Loading schemes...</div>
+        </div>
+        
+        <div class="how-it-works">
+            <h2 class="section-title">About This Portal</h2>
+            <div class="yojana-card">
+                <div class="yojana-content">
+                    <h3 class="yojana-title">Real-time Yojana Updates</h3>
+                    <div class="yojana-department">Ministry of Rural Development</div>
+                    <p class="yojana-description">
+                        This portal automatically collects and updates information about various government schemes 
+                        from official sources to help rural citizens stay informed about benefits they can avail.
+                        We scrape data from government websites daily to provide the most current information.
+                    </p>
+                    <div class="yojana-meta">
+                        <div class="yojana-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            Updated daily
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Jan Kalyan Yojana Portal | Helping rural India access government schemes</p>
+            <p>Data collected from various government websites and official sources</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data - in a real implementation, this would come from web scraping
+        const yojanas = [
+            {
+                title: "PM Kisan Samman Nidhi",
+                description: "Financial assistance of ₹6,000 per year to small and marginal farmers.",
+                department: "Agriculture",
+                category: "agriculture",
+                link: "https://pmkisan.gov.in",
+                date: "2023-11-15",
+                image: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
+            },
+            {
+                title: "Ayushman Bharat Yojana",
+                description: "Health insurance coverage of ₹5 lakh per family per year for secondary and tertiary care hospitalization.",
+                department: "Health",
+                category: "health",
+                link: "https://pmjay.gov.in",
+                date: "2023-11-10",
+                image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                title: "Pradhan Mantri Awas Yojana (Gramin)",
+                description: "Housing for all by 2024 with financial assistance for construction.",
+                department: "Housing",
+                category: "housing",
+                link: "https://pmayg.nic.in",
+                date: "2023-11-05",
+                image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80"
+            },
+            {
+                title: "National Rural Livelihood Mission",
+                description: "Self-employment and skilled wage employment opportunities for rural poor.",
+                department: "Employment",
+                category: "employment",
+                link: "https://aajeevika.gov.in",
+                date: "2023-10-28",
+                image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                title: "PM Poshan Shakti Nirman",
+                description: "Hot cooked meals to children in government and government-aided schools.",
+                department: "Education",
+                category: "education",
+                link: "https://pmposhan.education.gov.in",
+                date: "2023-10-20",
+                image: "https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+            },
+            {
+                title: "Sukanya Samriddhi Yojana",
+                description: "Small deposit savings scheme for girl child welfare and education.",
+                department: "Women & Child",
+                category: "women",
+                link: "https://www.indiapost.gov.in",
+                date: "2023-10-15",
+                image: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
+            },
+            {
+                title: "PM Jan Dhan Yojana",
+                description: "Financial inclusion program ensuring access to financial services.",
+                department: "Finance",
+                category: "financial",
+                link: "https://pmjdy.gov.in",
+                date: "2023-10-10",
+                image: "https://images.unsplash.com/photo-1550565118-3a14e8d0386f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                title: "Kisan Credit Card Scheme",
+                description: "Adequate and timely credit support to farmers for cultivation needs.",
+                department: "Agriculture",
+                category: "agriculture",
+                link: "https://www.nabard.org",
+                date: "2023-10-05",
+                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80"
+            }
+        ];
+
+        // DOM elements
+        const yojanaContainer = document.getElementById('yojanaContainer');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const notification = document.getElementById('notification');
+        const lastUpdated = document.getElementById('lastUpdated');
+
+        // Function to show notification
+        function showNotification(message, isSuccess = true) {
+            notification.textContent = message;
+            notification.style.backgroundColor = isSuccess ? 'var(--success-color)' : 'var(--error-color)';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Function to update last updated time
+        function updateLastUpdated() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            lastUpdated.textContent = `Last updated: ${now.toLocaleDateString('en-IN', options)}`;
+        }
+
+        // Function to render yojanas
+        function renderYojanas(filterCategory = 'all') {
+            yojanaContainer.innerHTML = '';
+            
+            const filteredYojanas = filterCategory === 'all' 
+                ? yojanas 
+                : yojanas.filter(yojana => yojana.category === filterCategory);
+            
+            if (filteredYojanas.length === 0) {
+                yojanaContainer.innerHTML = '<div class="loading">No schemes found in this category</div>';
+                return;
+            }
+            
+            filteredYojanas.forEach(yojana => {
+                const yojanaCard = document.createElement('div');
+                yojanaCard.className = 'yojana-card';
+                yojanaCard.innerHTML = `
+                    <div class="yojana-image" style="background-image: url('${yojana.image}')"></div>
+                    <div class="yojana-content">
+                        <h3 class="yojana-title">${yojana.title}</h3>
+                        <div class="yojana-department">${yojana.department}</div>
+                        <p class="yojana-description">${yojana.description}</p>
+                        <div class="yojana-meta">
+                            <div class="yojana-date">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                                ${new Date(yojana.date).toLocaleDateString('en-IN')}
+                            </div>
+                        </div>
+                        <a href="${yojana.link}" target="_blank" class="read-more">Read More & Apply</a>
+                    </div>
+                `;
+                yojanaContainer.appendChild(yojanaCard);
+            });
+        }
+
+        // Simulate web scraping by fetching data (in real app, this would be an API call)
+        function fetchYojanaData() {
+            yojanaContainer.innerHTML = '<div class="loading">Fetching latest schemes...</div>';
+            
+            // Simulate network delay
+            setTimeout(() => {
+                // In a real implementation, you would:
+                // 1. Call your backend API that does the web scraping
+                // 2. Process the response
+                // 3. Update the yojanas array
+                
+                // For this demo, we'll just use our sample data
+                updateLastUpdated();
+                const activeTab = document.querySelector('.category-tab.active');
+                const currentCategory = activeTab.getAttribute('data-category');
+                renderYojanas(currentCategory);
+                
+                showNotification('Schemes updated successfully!');
+            }, 1500);
+        }
+
+        // Initialize
+        updateLastUpdated();
+        renderYojanas();
+
+        // Add click event listeners to category tabs
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                // Filter yojanas by category
+                const category = tab.getAttribute('data-category');
+                renderYojanas(category);
+            });
+        });
+
+        // Add refresh functionality
+        refreshBtn.addEventListener('click', fetchYojanaData);
+
+        // In a real implementation, you would also:
+        // 1. Set up a backend service to periodically scrape government websites
+        // 2. Create an API endpoint to serve the scraped data
+        // 3. Maybe use WebSockets for real-time updates
+        // 4. Implement proper error handling for scraping failures
+
+        // For demonstration, we'll simulate periodic updates
+        setInterval(fetchYojanaData, 3600000); // Update every hour
+    </script>
+</body>
+</html>

@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraSight | Smart Infrastructure Monitoring</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Light Theme Base */
+        :root {
+            --bg-light: #ffffff;
+            --bg-lighter: #f9f9f9;
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --supervisor: #7209b7;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: var(--bg-light);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Login Dropdown */
+        .login-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .login-btn {
+            padding: 10px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 1001;
+    margin-top: 5px; /* Reduced gap */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    visibility: hidden;
+}
+
+        /* Show dropdown when hovering container */
+.login-container:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+        
+        .dropdown-content a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s;
+}
+        
+        .dropdown-content a:hover {
+            background-color: var(--bg-lighter);
+             color: var(--primary);
+        }
+        
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid white;
+}
+        .dropdown-content a.citizen:hover {
+            border-left-color: var(--primary);
+        }
+        
+        .dropdown-content a.gov:hover {
+            border-left-color: var(--secondary);
+        }
+        
+        .dropdown-content a.supervisor:hover {
+            border-left-color: var(--supervisor);
+        }
+        
+        .login-container:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .modal-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .modal-title.gov::after {
+            background: var(--secondary);
+        }
+        
+        .modal-title.supervisor::after {
+            background: var(--supervisor);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn.gov {
+            background: var(--secondary);
+        }
+        
+        .submit-btn.supervisor {
+            background: var(--supervisor);
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        
+       /* Dashboard Styles */
+.dashboard {
+    display: none;
+    padding: 80px 5% 30px;
+    background-color: var(--bg-lighter);
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg-light);
+    padding: 15px 5%;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-title {
+    font-size: 1.8rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-btn {
+   padding: 8px 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Prevents text wrapping */
+    position: relative; /* For z-index to work */
+    z-index: 1001;
+}
+
+.logout-btn:hover {
+    background: #d90429;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 5%;
+    }
+    
+    .logout-btn {
+        align-self: flex-end;
+    }
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px solid var(--primary);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Card Specific Styles */
+.card-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.dashboard-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+.dashboard-card p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card-btn {
+    padding: 10px 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.card-btn:hover {
+    background: var(--secondary);
+}
+
+/* Citizen Dashboard Specific */
+.dashboard-card.report {
+    border-top-color: #4cc9f0;
+}
+
+.dashboard-card.vote {
+    border-top-color: #3a86ff;
+}
+
+.dashboard-card.yojana {
+    border-top-color: #3a0ca3;
+}
+
+.dashboard-card.coupon {
+    border-top-color: #f72585;
+}
+
+/* Government Dashboard Specific */
+/* Construction Card Specific Styles */
+.dashboard-card.construction {
+    border-top-color: #ff9e00; /* Orange accent */
+}
+
+.construction-stats {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 5px;
+    display: block;
+}
+
+.construction-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.construction-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.progress-btn {
+    background: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
+}
+
+.reports-btn {
+    background: var(--bg-lighter);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.progress-btn:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.reports-btn:hover {
+    background: rgba(67, 97, 238, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Construction Card File Attachment Styles */
+.file-attachment-section {
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border);
+}
+
+.file-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.file-upload-btn {
+    padding: 8px 15px;
+    background: var(--bg-lighter);
+    color: var(--primary);
+    border: 1px dashed var(--primary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-upload-btn:hover {
+    background: rgba(67, 97, 238, 0.1);
+}
+
+#constructionFileName {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+
+#viewConstructionLink {
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+}
+
+
+.construction-btn {
+  
+    margin-top: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 500px) {
+    .construction-buttons {
+        flex-direction: column;
+    }
+    
+    .stat-box {
+        min-width: calc(33% - 10px);
+    }
+}
+
+.dashboard-card.waste {
+    border-top-color: #ef476f;
+}
+
+/* Reported Issues Card Specific Styles */
+.dashboard-card.issues {
+    border-top-color: #d90429; /* Red accent */
+}
+
+/* File Attachment Section */
+.file-attachment-section {
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border);
+}
+
+.file-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.file-upload-btn {
+    padding: 8px 15px;
+    background: var(--bg-lighter);
+    color: var(--primary);
+    border: 1px dashed var(--primary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-upload-btn:hover {
+    background: rgba(67, 97, 238, 0.1);
+}
+
+#issuesFileName {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Issues Button Styles */
+.issues-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.reports-btn {
+    background: var(--bg-lighter);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.reports-btn:hover {
+    background: rgba(67, 97, 238, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Dashboard Link Styles */
+.dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.dashboard-link:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+/* Gap Analytics Card Specifics */
+.dashboard-card.analytics {
+    border-top-color: #06d6a0; /* Teal accent */
+}
+
+.streamlit-attachment {
+    margin-top: 20px;
+}
+
+.streamlit-badge {
+    display: inline-block;
+    background: #FF4B4B;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.dashboard-link {
+    
+    display: inline-flex;
+    align-items: center;
+}
+
+.dashboard-link:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard-link i {
+    margin-right: 8px;
+}
+/* Stats and Progress Elements */
+.stats {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.stat {
+    background: var(--bg-lighter);
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.progress-container {
+    margin: 15px 0;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.priority-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tag.medium {
+    background: #ffd166;
+    color: #333;
+}
+
+.tag.high {
+    background: #ef476f;
+    color: white;
+}
+
+.tag.critical {
+    background: #d90429;
+    color: white;
+}
+
+.mini-chart {
+    height: 120px;
+    background: var(--bg-lighter);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    color: var(--primary);
+    font-size: 2rem;
+}
+
+.credit-balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.balance {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.small-btn {
+    padding: 6px 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        
+        /* Sections Common Styles */
+        section {
+            padding: 100px 10%;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            background: linear-gradient(135deg, rgba(244, 244, 255, 0.8), rgba(255, 255, 255, 0.9)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--secondary);
+            max-width: 700px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+        
+        .cta-btn {
+            padding: 15px 35px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cta-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(67, 97, 238, 0.3);
+        }
+        
+        .cta-btn:hover i {
+            transform: translateY(3px);
+        }
+        
+        /* Statistics Section */
+        .stats {
+            background-color: var(--bg-lighter);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-text {
+            color: var(--text-light);
+        }
+        
+        /* Features Section */
+        .features-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .feature-card.citizen {
+            border-top-color: #4cc9f0;
+        }
+        
+        .feature-card.gov {
+            border-top-color: #3a0ca3;
+        }
+        
+        .feature-card.supervisor {
+            border-top-color: #7209b7;
+        }
+        
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .feature-card.citizen .feature-icon {
+            color: #4cc9f0;
+        }
+        
+        .feature-card.gov .feature-icon {
+            color: #3a0ca3;
+        }
+        
+        .feature-card.supervisor .feature-icon {
+            color: #7209b7;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .feature-points {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .feature-point {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .point-icon {
+            font-size: 1.2rem;
+            margin-right: 10px;
+            margin-top: 3px;
+            color: var(--primary);
+        }
+        
+        .feature-card.citizen .point-icon {
+            color: #4cc9f0;
+        }
+        
+        .feature-card.gov .point-icon {
+            color: #3a0ca3;
+        }
+        
+        .feature-card.supervisor .point-icon {
+            color: #7209b7;
+        }
+        
+        /* Success Stories */
+        .success {
+            background-color: var(--bg-lighter);
+        }
+        
+        .stories-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .story-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .story-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .story-content {
+            padding: 25px;
+        }
+        
+        .story-quote {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        .story-source {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* FAQ Section */
+        .faq-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+        
+        .tab-btn {
+            padding: 10px 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .faq-content {
+            display: none;
+        }
+        
+        .faq-content.active {
+            display: block;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 30px 10%;
+            text-align: center;
+        }
+        
+        footer p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        /* Supervisor Dashboard Specific Styles */
+        .supervisor-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .supervisor-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--supervisor);
+        }
+        
+        .supervisor-card h3 {
+            color: var(--supervisor);
+            margin-bottom: 15px;
+        }
+        
+        .supervisor-list {
+            list-style: none;
+        }
+        
+        .supervisor-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .supervisor-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3bf;
+            color: #e67700;
+        }
+        
+        .status-approved {
+            background: #d3f9d8;
+            color: #2b8a3e;
+        }
+        
+        .status-rejected {
+            background: #ffe3e3;
+            color: #c92a2a;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-container,
+            .stories-container,
+            .contact-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            section {
+                padding: 70px 5%;
+            }
+            
+            .stats-container,
+            .features-container,
+            .stories-container,
+            .contact-container,
+            .supervisor-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-eye"></i>InfraSight
+        </div>
+        <div class="nav-links">
+            <a href="#mission">Our Mission</a>
+            <a href="#stats">Statistics</a>
+            <a href="#features">Features</a>
+            <a href="#success">Success Stories</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="login-container" id="loginContainer">
+    <button class="login-btn" id="loginBtn">Login</button>
+    <div class="dropdown-content">
+   <a href="#" onclick="openModal('citizen'); return false;">Login as Citizen</a>
+<a href="#" onclick="openModal('gov'); return false;">Login as Government</a>
+
+
+   
+
+
+
+</div>
+</div>
+    </nav>
+
+    <!-- Main Content (Visible when not logged in) -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="mission">
+            <h1 class="fade-in">InfraSight bridges citizens and governments</h1>
+            <p class="fade-in">Report issues, track progress, and close infrastructure gaps – together.</p>
+            <button class="cta-btn fade-in">
+                See How It Works <i class="fas fa-arrow-down"></i>
+            </button>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats" id="stats">
+            <h2 class="section-title">Our Impact</h2>
+            <div class="stats-container">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">🚧</div>
+                    <div class="stat-number">12,345</div>
+                    <div class="stat-text">Active Projects</div>
+                </div>
+                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-icon">🗑</div>
+                    <div class="stat-number">8,902</div>
+                    <div class="stat-text">Waste Hotspots Cleared</div>
+                </div>
+                <div class="stat-card fade-in" style="animation-delay: 0.4s;">
+                    <div class="stat-icon">🏫</div>
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-text">Infrastructure Gaps Closed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-container">
+                <div class="feature-card citizen fade-in">
+                    <div class="feature-header">
+                        <div class="feature-icon">👥</div>
+                        <h3 class="feature-title">For Citizens → Report, Vote, Earn</h3>
+                    </div>
+                    <div class="feature-points">
+                        <div class="feature-point">
+                            <div class="point-icon">📸</div>
+                            <div>
+                                <h4>Report</h4>
+                                <p>Upload geo-tagged issues</p>
+                            </div>
+                        </div>
+                        <div class="feature-point">
+                            <div class="point-icon">👍</div>
+                            <div>
+                                <h4>Vote</h4>
+                                <p>Prioritize community needs</p>
+                            </div>
+                        </div>
+                        <div class="feature-point">
+                            <div class="point-icon">🏆</div>
+                            <div>
+                                <h4>Earn</h4>
+                                <p>Redeem credits for rewards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-card gov fade-in" style="animation-delay: 0.2s;">
+                    <div class="feature-header">
+                        <div class="feature-icon">🏛</div>
+                        <h3 class="feature-title">For Government → Monitor, Act, Improve</h3>
+                    </div>
+                    <div class="feature-points">
+                        <div class="feature-point">
+                            <div class="point-icon">🏗</div>
+                            <div>
+                                <h4>Monitor</h4>
+                                <p>Real-time construction dashboards</p>
+                            </div>
+                        </div>
+                        <div class="feature-point">
+                            <div class="point-icon">🗑</div>
+                            <div>
+                                <h4>Act</h4>
+                                <p>Waste management heatmaps</p>
+                            </div>
+                        </div>
+                        <div class="feature-point">
+                            <div class="point-icon">📊</div>
+                            <div>
+                                <h4>Improve</h4>
+                                <p>Gap detection analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <div class="feature-header">
+                        <div class="feature-icon">👨‍💼</div>
+                        <h3 class="feature-title">For Supervisors → Oversee, Approve, Manage</h3>
+                    </div>
+                    
+        </section>
+        
+
+        <!-- Success Stories Section -->
+        <section class="success" id="success">
+            <h2 class="section-title">Success Stories</h2>
+            <div class="stories-container">
+                <div class="story-card fade-in">
+                    <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1608889825103-eb5a6f5adf91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="story-content">
+                        <p class="story-quote">"Our village got repairs in 10 days after 200 upvotes!"</p>
+                        <p class="story-source">- Gram Panchayat, Rajasthan</p>
+                    </div>
+                </div>
+                <div class="story-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="story-content">
+                        <p class="story-quote">"InfraSight helped clear 15 waste sites in 3 months."</p>
+                        <p class="story-source">- Municipal Corporation, Maharashtra</p>
+                    </div>
+                </div>
+                <div class="story-card fade-in" style="animation-delay: 0.4s;">
+                    <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1601871925712-3c803d50fa72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="story-content">
+                        <p class="story-quote">"We identified 5 critical infrastructure gaps using the analytics dashboard."</p>
+                        <p class="story-source">- PWD Department, Karnataka</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq" id="faq">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-tabs">
+                <button class="tab-btn active" onclick="openTab('citizen-faq')">Citizen FAQ</button>
+                <button class="tab-btn" onclick="openTab('gov-faq')">Government FAQ</button>
+            </div>
+            <div id="citizen-faq" class="faq-content active">
+                <div class="faq-item fade-in">
+                    <p class="faq-question">How do I earn credits?</p>
+                    <p>10 credits per verified report, 5 per upvoted issue.</p>
+                </div>
+                <div class="faq-item fade-in" style="animation-delay: 0.2s;">
+                    <p class="faq-question">What can I redeem credits for?</p>
+                    <p>Vouchers, community recognition, or priority for your reports.</p>
+                </div>
+            </div>
+            <div id="gov-faq" class="faq-content">
+                <div class="faq-item fade-in">
+                    <p class="faq-question">How to access dashboards?</p>
+                    <p>Login with approved government email ID.</p>
+                </div>
+                <div class="faq-item fade-in" style="animation-delay: 0.2s;">
+                    <p class="faq-question">Is the data exportable?</p>
+                    <p>Yes, all reports and analytics can be exported in multiple formats.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-card fade-in">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3 class="contact-title">Address</h3>
+                    <p>InfraSight HQ<br>New Delhi, India</p>
+                </div>
+                <div class="contact-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <h3 class="contact-title">Connect</h3>
+                    <p>contact@infrasight.in<br>1800-INFRA</p>
+                </div>
+                <div class="contact-card fade-in" style="animation-delay: 0.4s;">
+                    <div class="contact-icon"><i class="fas fa-share-alt"></i></div>
+                    <h3 class="contact-title">Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter social-icon"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp social-icon"></i></a>
+                        <a href="#"><i class="fab fa-youtube social-icon"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="fade-in">
+            <p>&copy; 2023 InfraSight. All rights reserved.</p>
+        </footer>
+    </div>
+
+   <!-- Citizen Dashboard -->
+<div id="citizen-dashboard" class="dashboard">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title"><i class="fas fa-user"></i> Citizen Dashboard</h1>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Report Card -->
+        <div class="dashboard-card report">
+            <div class="card-icon"><i class="fas fa-camera"></i></div>
+            <h2>Report Issues</h2>
+            <p>Document infrastructure problems in your area with photos and location details</p>
+            <button class="card-btn">
+                <i class="fas fa-plus"></i> New Report
+            </button>
+        </div>
+        
+        <!-- Vote Card -->
+        <div class="dashboard-card vote">
+            <div class="card-icon"><i class="fas fa-thumbs-up"></i></div>
+            <h2>Vote on Issues</h2>
+            <p>Help prioritize community needs by upvoting important infrastructure issues</p>
+            <div class="stats">
+                <span class="stat"><strong>42</strong> Active Issues</span>
+                <span class="stat"><strong>5</strong> Your Votes</span>
+            </div>
+        </div>
+        
+        <!-- Yojanas Card -->
+       <div class="dashboard-card yojana">
+    <div class="card-icon"><i class="fas fa-file-invoice"></i></div>
+    <h2>Government Yojanas</h2>
+    <p>Explore available government schemes and infrastructure projects in your area</p>
+    <a href="yojanas.html" class="card-btn">
+        <i class="fas fa-search"></i> Browse Schemes
+    </a>
+</div>
+
+        
+        <!-- Coupons Card -->
+        <div class="dashboard-card coupon">
+            <div class="card-icon"><i class="fas fa-ticket-alt"></i></div>
+            <h2>Your Coupons</h2>
+            <p>Redeem your earned credits for rewards and benefits</p>
+            <div class="credit-balance">
+                <span class="balance">150 Credits</span>
+                <button class="small-btn">Redeem</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Government Dashboard -->
+<div id="gov-dashboard" class="dashboard">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title"><i class="fas fa-landmark"></i> Government Dashboard</h1>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Construction Progress Card -->
+   <div class="dashboard-card construction">
+    <div class="card-icon"><i class="fas fa-hard-hat"></i></div>
+    <h2>Construction Progress</h2>
+    <p>Monitor and manage all ongoing construction projects</p>
+    
+    <!-- File Attachment Section for Progress -->
+    <a href="https://constructadmiin.streamlit.app/" 
+       class="construction-btn progress-btn" 
+       target="_blank">
+        <i class="fas fa-chart-line"></i> View Progress Dashboard
+    </a>
+    
+    <!-- Reports Button -->
+    <a href="construction.html" class="dashboard-link" id="viewConstructionLink">
+        <i class="fas fa-file-alt"></i> View Construction Reports
+    </a>
+</div>
+        
+        <!-- Waste Management Card -->
+     <!-- In the Government Dashboard section -->
+<div class="dashboard-card waste">
+    <div class="card-icon"><i class="fas fa-trash-alt"></i></div>
+    <h2>Waste Management</h2>
+    <p>View reported waste hotspots and management status</p>
+    
+    <div class="priority-tags">
+        <span class="tag medium"><i class="fas fa-exclamation-circle"></i> 12 Medium</span>
+        <span class="tag high"><i class="fas fa-exclamation-triangle"></i> 5 High</span>
+        <span class="tag critical"><i class="fas fa-skull-crossbones"></i> 3 Critical</span>
+    </div>
+    
+    <!-- Simple Link to Dashboard -->
+   <a href="dashboard.html" class="dashboard-link">
+        <i class="fas fa-external-link-alt"></i> View Waste Dashboard
+    </a>
+</div>
+        
+        <!-- Reported Issues Card -->
+        <div class="dashboard-card issues">
+    <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <h2>Reported Issues</h2>
+    <p>View and manage all citizen-reported infrastructure issues</p>
+    
+    <!-- File Attachment Section -->
+    <div class="file-attachment-section">
+        <a href="issuse.html" class="dashboard-link" id="viewIssuesLink">
+            <i class="fas fa-list-ul"></i> View Reported Issues
+        </a>
+    </div>
+    
+    <!-- Reports Button -->
+    <a href="issues-report.html" class="issues-btn reports-btn">
+        <i class="fas fa-file-pdf"></i> View Issues Report
+    </a>
+</div>
+        
+        <!-- Analytics Card -->
+        <div class="dashboard-card analytics">
+            <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
+            <h2>Gap Analysis</h2>
+            <p>Identify infrastructure gaps and priority areas</p>
+           <div class="streamlit-attachment">
+        <a href="https://gapindicator.streamlit.app/" 
+           class="dashboard-link" 
+           target="_blank">
+            <i class="fas fa-external-link-alt"></i> 
+            View Gap Analysis Dashboard
+            <span class="streamlit-badge">Streamlit</span>
+        </a>
+    </div>
+</div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title" id="modal-title">Login</h2>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="submit-btn" onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <script>
+    
+    // Current user type (citizen or gov or supervisor)
+    let currentUserType = '';
+
+    // Open login modal with specific user type
+    function openModal(userType) {
+        currentUserType = userType;
+        const modal = document.getElementById('login-modal');
+        const title = document.getElementById('modal-title');
+
+        if (userType === 'citizen') {
+            title.textContent = 'Login as Citizen';
+        } else if (userType === 'gov') {
+            title.textContent = 'Login as Government';
+        } else if (userType === 'supervisor') {
+            title.textContent = 'Login as Supervisor';
+        }
+
+        modal.style.display = 'block';
+    }
+
+    // Close login modal
+    function closeModal() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = 'none';
+    }
+
+    // Login function (dummy implementation)
+    function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (email && password) {
+            closeModal();
+
+            // Hide main content
+            document.getElementById('main-content').style.display = 'none';
+
+            // Show appropriate dashboard
+            if (currentUserType === 'citizen') {
+                document.getElementById('citizen-dashboard').style.display = 'block';
+            } else if (currentUserType === 'gov') {
+                document.getElementById('gov-dashboard').style.display = 'block';
+            } else if (currentUserType === 'supervisor') {
+                window.location.href = "https://your-backend-supervisor-link.com";
+            }
+        } else {
+            alert("Please enter both email and password.");
+        }
+    }
+
+        
+        // Logout function
+        function logout() {
+            // Hide all dashboards
+            document.getElementById('citizen-dashboard').style.display = 'none';
+            document.getElementById('gov-dashboard').style.display = 'none';
+            
+            // Show main content
+            document.getElementById('main-content').style.display = 'block';
+            
+            // Clear form
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // FAQ tab functionality
+        function openTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.faq-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show the selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            // Close modal if clicked outside
+            window.addEventListener('click', (event) => {
+                const modal = document.getElementById('login-modal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+    <!-- govern dashboard file ki hai---> 
+    <script>
+    // File upload functionality
+    document.getElementById('wasteReportFile').addEventListener('change', function(e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+        document.getElementById('fileName').textContent = fileName;
+    });
+
+    function uploadWasteReport() {
+        const fileInput = document.getElementById('wasteReportFile');
+        const statusElement = document.getElementById('uploadStatus');
+        const viewLink = document.getElementById('viewDashboardLink');
+        
+        if (!fileInput.files.length) {
+            statusElement.textContent = "Please select a file first";
+            statusElement.style.color = "var(--accent)";
+            return;
+        }
+        
+        const file = fileInput.files[0];
+        if (file.type !== "text/html" && !file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
+            statusElement.textContent = "Only HTML files are allowed";
+            statusElement.style.color = "var(--accent)";
+            return;
+        }
+        
+        // Simulate file upload (in real implementation, you would upload to server)
+        statusElement.textContent = "Uploading...";
+        statusElement.style.color = "var(--text)";
+        
+        setTimeout(() => {
+            statusElement.textContent = "Dashboard uploaded successfully!";
+            statusElement.style.color = "#06d6a0";
+            viewLink.style.display = "block";
+            
+            // In a real implementation, you would:
+            // 1. Upload the file to your server
+            // 2. Store the file path/URL
+            // 3. Update the view link to point to the uploaded file
+        }, 1500);
+    }
+</script>
+<script>
+    // Issues File Handling
+    document.getElementById('issuesFile').addEventListener('change', function(e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+        document.getElementById('issuesFileName').textContent = fileName;
+        
+        // Show the view link when file is selected
+        if (e.target.files.length > 0) {
+            document.getElementById('viewIssuesLink').style.display = 'inline-flex';
+        }
+    });
+</script>
+</body>
+</html>                                                                                            

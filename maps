@@ -1,0 +1,109 @@
+import pandas as pd
+import folium
+from folium.plugins import HeatMap
+
+# Load your wasteland data
+data = pd.read_csv('export.csv')  # ensure this CSV has 'latitude' and 'longitude'
+
+# Filter or clean data if needed
+data = data.dropna(subset=['latitude', 'longitude'])
+
+# Create a base map of India
+m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)  # Center of India
+
+# Create a list of [lat, lon] pairs
+heat_data = data[['latitude', 'longitude']].values.tolist()
+
+# Add HeatMap to the map
+HeatMap(heat_data).add_to(m)
+
+# Save or display the map
+m.save('wasteland_heatmap_india.html')
+
+import pandas as pd
+import geopandas as gpd
+import folium
+from folium.plugins import HeatMap
+
+# Load Excel file
+df = pd.read_csv('landfill.csv')
+
+# Drop rows with missing coordinates
+df = df.dropna(subset=['Latitude', 'Longitude'])
+
+# Create GeoDataFrame
+gdf = gpd.GeoDataFrame(
+    df,
+    geometry=gpd.points_from_xy(df['Longitude'], df['Latitude']),
+    crs="EPSG:4326"
+)
+
+# Center the map on India
+m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
+
+# Add all sites as markers
+for _, row in df.iterrows():
+    folium.CircleMarker(
+        location=[row['Latitude'], row['Longitude']],
+        radius=5,
+        popup=f"{row['Landfill_Name']}: {row['Waste_Tonnes']} tonnes",
+        color='blue',
+        fill=True,
+        fill_color='blue'
+    ).add_to(m)
+
+m.save("landfill_locations_map.html")
+
+
+# Ensure numeric
+df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+df['Waste_Tonnes'] = pd.to_numeric(df['Waste_Tonnes'], errors='coerce')
+
+# Drop rows with missing numeric data
+df_clean = df.dropna(subset=['Latitude', 'Longitude', 'Waste_Tonnes'])
+
+# Prepare heat_data
+heat_data = [
+    [row['Latitude'], row['Longitude'], row['Waste_Tonnes']]
+    for _, row in df_clean.iterrows()
+]
+
+# Create heatmap
+heatmap = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
+HeatMap(heat_data, radius=15, max_zoom=13).add_to(heatmap)
+heatmap.save("waste_heatmap.html")
+
+import plotly.express as px
+
+# Dummy data (source: typical municipal waste composition)
+waste_types = {
+    "Organic": 30,
+    "Plastic": 45,
+    "Paper": 15,
+    "Metal": 8,
+    "Other": 7
+}
+
+fig = px.pie(
+    values=waste_types.values(),
+    names=waste_types.keys(),
+    hole=0.3,
+    title="Waste Composition"
+)
+fig.show()
+
+import plotly.express as px
+
+regions = ["Mumbai", "Delhi", "Kolkata", "Chennai", "Bengaluru", "Hyderabad", "Ahmedabad", "Pune"]
+generation = [120, 90, 70, 110, 150, 89, 54, 100]  # Tons/month
+disposal = [80, 60, 50, 95, 67, 35, 46, 79]        # Tons/month
+
+fig = px.bar(
+    x=regions,
+    y=[generation, disposal],
+    barmode="group",
+    labels={"value": "Tons", "variable": "Metric"},
+    title="Waste Generation vs. Disposal by Region"
+)
+fig.show()
